@@ -37,6 +37,13 @@ public class ShapeAndColourModifier
     public ColourModifier ColourModifier;
 }
 
+[Serializable]
+public class SpeedModifier
+{
+    public CharacteristicModifier CharacteristicMod;
+    public float Value;
+}
+
 
 [CreateAssetMenu(menuName = "My Assets/Units Characteristic Config")]
 public class UnitsCharacteristicConfig : ScriptableObject
@@ -44,5 +51,11 @@ public class UnitsCharacteristicConfig : ScriptableObject
     public List<ShapeModifier> ShapeModifiersList = new List<ShapeModifier>();
     public List<SizeModifier> SizeModifiersList = new List<SizeModifier>();
     public List<ShapeAndColourModifier> ShapeAndColourModifiersList = new List<ShapeAndColourModifier>();
+    [Header("Movement Speed")]
+    public SpeedModifier MinMovementSpeedValue;
+    public SpeedModifier MaxMovementSpeedValue;
+    [Header("Attack Speed")]
+    public SpeedModifier MinAttackSpeedValue;
+    public SpeedModifier MaxAttackSpeedValue;
 
 }

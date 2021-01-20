@@ -83,3 +83,23 @@ MonoBehaviour:
       Modifier:
         Stat: 1
         Mod: 40
+  MinMovementSpeedValue:
+    CharacteristicMod:
+      Stat: 0
+      Mod: 150
+    Value: 10
+  MaxMovementSpeedValue:
+    CharacteristicMod:
+      Stat: 0
+      Mod: 450
+    Value: 5
+  MinAttackSpeedValue:
+    CharacteristicMod:
+      Stat: 1
+      Mod: 30
+    Value: 1
+  MaxAttackSpeedValue:
+    CharacteristicMod:
+      Stat: 1
+      Mod: 70
+    Value: 2

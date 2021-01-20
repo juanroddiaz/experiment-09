@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class UnitLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private GameObject _cubeShape;
+    [SerializeField]
+    private GameObject _sphereShape;
 
-    // Update is called once per frame
-    void Update()
+    private UnitConfig _config;
+    private float _movementSpeed = 0.0f;
+    private float _attacksPerSecond = 0.0f;
+
+    public void Initialize(UnitConfig config, float movementSpeed, float attacksPerSecond)
     {
-        
+        _config = config;
+        _movementSpeed = movementSpeed;
+        _attacksPerSecond = attacksPerSecond;
     }
 }
