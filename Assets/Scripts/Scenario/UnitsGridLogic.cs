@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class UnitsGridLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private ScenarioController _controller;
+    [SerializeField]
+    private List<Transform> _tiles;
+    
+    public void Initialize(ScenarioController controller)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _controller = controller;
     }
 }

@@ -18,5 +18,7 @@ public class UnitLogic : MonoBehaviour
         _config = config;
         _movementSpeed = movementSpeed;
         _attacksPerSecond = attacksPerSecond;
+
+        Debug.Log(config.ToString() + ", movementSpd: " + _movementSpeed + ", atkSpd: " + _attacksPerSecond);
     }
 }

@@ -16,52 +16,80 @@ MonoBehaviour:
   BaseAtk: 10
   ShapeModifiersList:
   - Shape: 0
-    Modifiers: []
+    Modifiers:
+    - Stat: 0
+      Mod: 100
+    - Stat: 1
+      Mod: 10
   - Shape: 1
-    Modifiers: []
+    Modifiers:
+    - Stat: 0
+      Mod: 50
+    - Stat: 0
+      Mod: 20
   SizeModifiersList:
   - Size: 0
-    Modifiers: []
+    Modifiers:
+    - Stat: 0
+      Mod: 50
   - Size: 1
-    Modifiers: []
+    Modifiers:
+    - Stat: 0
+      Mod: 50
   ShapeAndColourModifiersList:
   - Shape: 0
     ColourModifier:
       Colour: 0
-      Modifiers: []
+      Modifiers:
+      - Stat: 1
+        Mod: 10
   - Shape: 0
     ColourModifier:
       Colour: 1
-      Modifiers: []
+      Modifiers:
+      - Stat: 0
+        Mod: 100
   - Shape: 0
     ColourModifier:
       Colour: 2
-      Modifiers: []
+      Modifiers:
+      - Stat: 1
+        Mod: 30
   - Shape: 0
     ColourModifier:
       Colour: 3
-      Modifiers: []
+      Modifiers:
+      - Stat: 0
+        Mod: 200
   - Shape: 1
     ColourModifier:
       Colour: 0
-      Modifiers: []
+      Modifiers:
+      - Stat: 0
+        Mod: 50
   - Shape: 1
     ColourModifier:
       Colour: 1
-      Modifiers: []
+      Modifiers:
+      - Stat: 1
+        Mod: 20
   - Shape: 1
     ColourModifier:
       Colour: 2
-      Modifiers: []
+      Modifiers:
+      - Stat: 0
+        Mod: 150
   - Shape: 1
     ColourModifier:
       Colour: 3
-      Modifiers: []
+      Modifiers:
+      - Stat: 1
+        Mod: 40
   MovementSpeedModifiers:
   - MainStat: 0
-    MinimumCap: {x: 0, y: 0}
-    MaximumCap: {x: 0, y: 0}
+    MinimumCap: {x: 150, y: 10}
+    MaximumCap: {x: 450, y: 5}
   AttackSpeedModifiers:
   - MainStat: 1
-    MinimumCap: {x: 0, y: 0}
-    MaximumCap: {x: 0, y: 0}
+    MinimumCap: {x: 30, y: 1}
+    MaximumCap: {x: 70, y: 2}

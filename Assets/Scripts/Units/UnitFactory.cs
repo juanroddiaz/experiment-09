@@ -34,6 +34,11 @@ public class UnitConfig
     public UnitShape Shape;
     public UnitSize Size;
     public UnitColour Colour;
+
+    public override string ToString()
+    {
+        return "Id: " + Id + ", hp: " + Hp + ", atk: " + Atk + ", Shape: " + Shape + ", Size: " + Size + ", Colour: " + Colour;
+    }
 }
 
 public class UnitFactory
@@ -54,14 +59,15 @@ public class UnitFactory
     {
         if (!_initialized)
         {
+            Debug.LogError("Not initialized!");
             return null;
         }
 
         var unitConfig = GetRandomUnitConfig();       
         var unit = Object.Instantiate(_baseUnit);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
-        int movementSpeed = GetMovementSpeed(UnitMainStats.Hp, unitConfig.Hp);
-        int attackSpeed = GetAttackSpeed(UnitMainStats.Atk, unitConfig.Atk);
+        float movementSpeed = GetMovementSpeed(UnitMainStats.Hp, unitConfig.Hp);
+        float attackSpeed = GetAttackSpeed(UnitMainStats.Atk, unitConfig.Atk);
         logic.Initialize(unitConfig, movementSpeed, attackSpeed);
         return unit;
     }
@@ -73,8 +79,8 @@ public class UnitFactory
             Id = "RandomUnit_" + _unitIndex,
             Hp = _config.BaseHp,
             Atk = _config.BaseAtk,
-            Shape = Random.Range(0.0f, 0.1f) < 0.5f ? UnitShape.Cube : UnitShape.Sphere,
-            Size = Random.Range(0.0f, 0.1f) < 0.5f ? UnitSize.Big : UnitSize.Small,
+            Shape = Random.Range(0.0f, 1.0f) < 0.5f ? UnitShape.Cube : UnitShape.Sphere,
+            Size = Random.Range(0.0f, 1.0f) < 0.5f ? UnitSize.Big : UnitSize.Small,
             Colour = GetRandomUnitColour(),
         };
 
@@ -137,19 +143,19 @@ public class UnitFactory
         }
     }
 
-    private int GetMovementSpeed(UnitMainStats stat, int currentValue)
+    private float GetMovementSpeed(UnitMainStats stat, int currentValue)
     {
         SpeedModifier mod = _config.MovementSpeedModifiers.Find(m => m.MainStat == stat);
         return GetSpeedModifierInterpolation(mod, currentValue);
     }
 
-    private int GetAttackSpeed(UnitMainStats stat, int currentValue)
+    private float GetAttackSpeed(UnitMainStats stat, int currentValue)
     {
         SpeedModifier mod = _config.AttackSpeedModifiers.Find(m => m.MainStat == stat);
         return GetSpeedModifierInterpolation(mod, currentValue);
     }
 
-    private int GetSpeedModifierInterpolation(SpeedModifier mod, int currentValue)
+    private float GetSpeedModifierInterpolation(SpeedModifier mod, int currentValue)
     {
         if (mod == null)
         {
@@ -168,9 +174,9 @@ public class UnitFactory
 
         int statInterval = mod.MaximumCap.x - mod.MinimumCap.x;
         int diff = currentValue - mod.MinimumCap.x;
-        float percentage = diff / statInterval;
+        float percentage = diff / (float) statInterval;
         int speedInterval = mod.MaximumCap.y - mod.MinimumCap.y;
-        int speed = Mathf.FloorToInt(speedInterval * percentage);
+        float speed = mod.MinimumCap.y + (speedInterval * percentage);
         return speed;
     }
 }
