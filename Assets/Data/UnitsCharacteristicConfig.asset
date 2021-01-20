@@ -12,94 +12,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b9f92fb7bd06d4db19dd7ef194c335, type: 3}
   m_Name: UnitsCharacteristicConfig
   m_EditorClassIdentifier: 
+  BaseHp: 100
+  BaseAtk: 10
   ShapeModifiersList:
   - Shape: 0
-    Modifier:
-    - Stat: 0
-      Mod: 100
-    - Stat: 1
-      Mod: 10
+    Modifiers: []
   - Shape: 1
-    Modifier:
-    - Stat: 0
-      Mod: 50
-    - Stat: 1
-      Mod: 20
+    Modifiers: []
   SizeModifiersList:
   - Size: 0
-    Modifier:
-      Stat: 0
-      Mod: 50
+    Modifiers: []
   - Size: 1
-    Modifier:
-      Stat: 0
-      Mod: -50
+    Modifiers: []
   ShapeAndColourModifiersList:
   - Shape: 0
     ColourModifier:
       Colour: 0
-      Modifier:
-        Stat: 1
-        Mod: 10
+      Modifiers: []
   - Shape: 0
     ColourModifier:
       Colour: 1
-      Modifier:
-        Stat: 0
-        Mod: 100
+      Modifiers: []
   - Shape: 0
     ColourModifier:
       Colour: 2
-      Modifier:
-        Stat: 1
-        Mod: 30
+      Modifiers: []
   - Shape: 0
     ColourModifier:
       Colour: 3
-      Modifier:
-        Stat: 0
-        Mod: 200
+      Modifiers: []
   - Shape: 1
     ColourModifier:
       Colour: 0
-      Modifier:
-        Stat: 0
-        Mod: 50
+      Modifiers: []
   - Shape: 1
     ColourModifier:
       Colour: 1
-      Modifier:
-        Stat: 1
-        Mod: 20
+      Modifiers: []
   - Shape: 1
     ColourModifier:
       Colour: 2
-      Modifier:
-        Stat: 0
-        Mod: 150
+      Modifiers: []
   - Shape: 1
     ColourModifier:
       Colour: 3
-      Modifier:
-        Stat: 1
-        Mod: 40
-  MinMovementSpeedValue:
-    CharacteristicMod:
-      Stat: 0
-      Mod: 150
-    Value: 10
-  MaxMovementSpeedValue:
-    CharacteristicMod:
-      Stat: 0
-      Mod: 450
-    Value: 5
-  MinAttackSpeedValue:
-    CharacteristicMod:
-      Stat: 1
-      Mod: 30
-    Value: 1
-  MaxAttackSpeedValue:
-    CharacteristicMod:
-      Stat: 1
-      Mod: 70
-    Value: 2
+      Modifiers: []
+  MovementSpeedModifiers:
+  - MainStat: 0
+    MinimumCap: {x: 0, y: 0}
+    MaximumCap: {x: 0, y: 0}
+  AttackSpeedModifiers:
+  - MainStat: 1
+    MinimumCap: {x: 0, y: 0}
+    MaximumCap: {x: 0, y: 0}
