@@ -13,4 +13,15 @@ public class UnitsGridLogic : MonoBehaviour
     {
         _controller = controller;
     }
+
+    public Transform GetTileTransform(int index)
+    {
+        if (index < 0 || index >= _tiles.Count)
+        {
+            Debug.LogError("Wrong Index!");
+            return null;
+        }
+
+        return _tiles[index];
+    }
 }

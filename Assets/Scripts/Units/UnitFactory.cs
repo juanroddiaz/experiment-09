@@ -55,7 +55,7 @@ public class UnitFactory
         _initialized = true;
     }
 
-    public GameObject CreateRandomUnit()
+    public GameObject CreateRandomUnit(Transform parent)
     {
         if (!_initialized)
         {
@@ -64,7 +64,7 @@ public class UnitFactory
         }
 
         var unitConfig = GetRandomUnitConfig();       
-        var unit = Object.Instantiate(_baseUnit);
+        var unit = Object.Instantiate(_baseUnit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
         float movementSpeed = GetMovementSpeed(UnitMainStats.Hp, unitConfig.Hp);
         float attackSpeed = GetAttackSpeed(UnitMainStats.Atk, unitConfig.Atk);

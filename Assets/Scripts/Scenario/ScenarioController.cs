@@ -8,6 +8,8 @@ public class ScenarioController : MonoBehaviour
     private UnitsGridLogic _gridLogic = null;
     [SerializeField]
     private GameObject _baseUnitObject = null;
+    [SerializeField]
+    private int _tilesPerSide = 20;
     [Header("Config")]
     [SerializeField]
     private UnitsCharacteristicConfig _unitsCharacteristicConfig = null;
@@ -18,8 +20,9 @@ public class ScenarioController : MonoBehaviour
     {
         _gridLogic.Initialize(this);
         _factory.Initialize(_unitsCharacteristicConfig, _baseUnitObject);
-        _factory.CreateRandomUnit();
-        _factory.CreateRandomUnit();
-        _factory.CreateRandomUnit();
+        for (int i = 0; i < _tilesPerSide; i++)
+        {
+            _factory.CreateRandomUnit(_gridLogic.GetTileTransform(i));
+        }
     }
 }
