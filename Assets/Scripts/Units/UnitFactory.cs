@@ -57,7 +57,7 @@ public class UnitFactory
         _initialized = true;
     }
 
-    public GameObject CreateRandomUnit(Transform parent)
+    public GameObject CreateRandomUnit(Transform parent, UnitTeam team)
     {
         if (!_initialized)
         {
@@ -68,7 +68,7 @@ public class UnitFactory
         var unitConfig = GetRandomUnitConfig();       
         var unit = Object.Instantiate(_baseUnit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
-        logic.Initialize(unitConfig);
+        logic.Initialize(unitConfig, team);
         return unit;
     }
 

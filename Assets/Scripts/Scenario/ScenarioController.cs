@@ -22,7 +22,7 @@ public class ScenarioController : MonoBehaviour
         _factory.Initialize(_unitsCharacteristicConfig, _baseUnitObject);
         for (int i = 0; i < _tilesPerSide; i++)
         {
-            _factory.CreateRandomUnit(_gridLogic.GetTileTransform(i));
+            _factory.CreateRandomUnit(_gridLogic.GetTileTransform(i), UnitTeam.Team1);
         }
     }
 }
