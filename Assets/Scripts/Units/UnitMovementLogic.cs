@@ -16,6 +16,14 @@ public class UnitMovementLogic : MonoBehaviour
         CanMove = true;
     }
 
+    public void OnTargetDetected(Transform t)
+    { 
+    }
+
+    public void OnTargetLost(Transform t)
+    {
+    }
+
     private void Update()
     {
         if (!CanMove)

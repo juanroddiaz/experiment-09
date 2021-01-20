@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class UnitAttackLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int _atk = 0;
+    private float _atkSpeed = 0.0f;
+
+    public void Initialize(int atk, float atkSpeed)
     {
-        
+        _atk = atk;
+        _atkSpeed = atkSpeed;        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnTargetInRange(Transform t)
+    { 
+
+    }
+
+    public void OnTargetOutOfRange(Transform t)
     {
-        
+
     }
 }

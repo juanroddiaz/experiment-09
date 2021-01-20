@@ -12,6 +12,8 @@ public class UnitLogic : MonoBehaviour
 {
     [SerializeField]
     private CollisionTriggerLogic _detectionColliderLogic;
+    [SerializeField]
+    private CollisionTriggerLogic _attackColliderLogic;
 
     [Header("Visual Feedback")]
     [SerializeField]
@@ -43,12 +45,20 @@ public class UnitLogic : MonoBehaviour
         _movementLogic.Initialize(_config.MovementSpeed);
 
         _attackLogic = GetComponent<UnitAttackLogic>();
+        _attackLogic.Initialize(_config.Atk, _config.AttackSpeed);
 
         _detectionColliderLogic.gameObject.tag = team.ToString();
         _detectionColliderLogic.Initialize(new CollisionTriggerData
         {
-            ColliderEnterAction = OnColliderEnter,
-            ColliderExitAction = OnColliderExit,
+            ColliderEnterAction = OnDetectionColliderEnter,
+            ColliderExitAction = OnDetectionColliderExit,
+        });
+
+        _attackColliderLogic.gameObject.tag = team.ToString();
+        _attackColliderLogic.Initialize(new CollisionTriggerData
+        {
+            ColliderEnterAction = OnAttackColliderEnter,
+            ColliderExitAction = OnAttackColliderExit,
         });
     }
 
@@ -96,11 +106,23 @@ public class UnitLogic : MonoBehaviour
         _shapeMaterial.color = targetColor;
     }
 
-    private void OnColliderEnter(Transform t)
-    { 
+    private void OnDetectionColliderEnter(Transform t)
+    {
+        _movementLogic.OnTargetDetected(t);
     }
 
-    private void OnColliderExit(Transform t)
+    private void OnDetectionColliderExit(Transform t)
     {
+        _movementLogic.OnTargetLost(t);
+    }
+
+    private void OnAttackColliderEnter(Transform t)
+    {
+        _attackLogic.OnTargetInRange(t);
+    }
+
+    private void OnAttackColliderExit(Transform t)
+    {
+        _attackLogic.OnTargetOutOfRange(t);
     }
 }
