@@ -666,7 +666,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.1
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1414,6 +1414,7 @@ MonoBehaviour:
   _gridLogic: {fileID: 715182347}
   _baseUnitObject: {fileID: 7537383154826953433, guid: 46bb0d7f29a394d479e11dc125c22e95,
     type: 3}
+  _tilesPerSide: 20
   _unitsCharacteristicConfig: {fileID: 11400000, guid: 8a0a3b2cd04e89e4d8c8a851664761ac,
     type: 2}
 --- !u!1001 &834509394

@@ -34,10 +34,12 @@ public class UnitConfig
     public UnitShape Shape;
     public UnitSize Size;
     public UnitColour Colour;
+    public float MovementSpeed;
+    public float AttackSpeed;
 
     public override string ToString()
     {
-        return "Id: " + Id + ", hp: " + Hp + ", atk: " + Atk + ", Shape: " + Shape + ", Size: " + Size + ", Colour: " + Colour;
+        return "Id: " + Id + ", hp: " + Hp + ", atk: " + Atk + ", Shape: " + Shape + ", Size: " + Size + ", Colour: " + Colour + ", movementSpd: " + MovementSpeed + ", atkSpd: " + AttackSpeed;
     }
 }
 
@@ -66,9 +68,7 @@ public class UnitFactory
         var unitConfig = GetRandomUnitConfig();       
         var unit = Object.Instantiate(_baseUnit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
-        float movementSpeed = GetMovementSpeed(UnitMainStats.Hp, unitConfig.Hp);
-        float attackSpeed = GetAttackSpeed(UnitMainStats.Atk, unitConfig.Atk);
-        logic.Initialize(unitConfig, movementSpeed, attackSpeed);
+        logic.Initialize(unitConfig);
         return unit;
     }
 
@@ -101,6 +101,9 @@ public class UnitFactory
         {
             UpdateStats(shapeColourModifier.ColourModifier.Modifiers, ref unitConfig);
         }
+
+        unitConfig.MovementSpeed = GetMovementSpeed(UnitMainStats.Hp, unitConfig.Hp);
+        unitConfig.AttackSpeed = GetAttackSpeed(UnitMainStats.Atk, unitConfig.Atk);
 
         _unitIndex++;
         return unitConfig;
