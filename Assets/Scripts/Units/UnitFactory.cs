@@ -69,6 +69,7 @@ public class UnitFactory
         var unit = Object.Instantiate(_baseUnit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
         logic.Initialize(unitConfig, team);
+        unit.transform.forward *= team == UnitTeam.Team1 ? 1.0f : -1.0f;
         return unit;
     }
 

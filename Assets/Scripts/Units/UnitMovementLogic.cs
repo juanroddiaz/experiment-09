@@ -5,7 +5,6 @@ using UnityEngine;
 public class UnitMovementLogic : MonoBehaviour
 {
     [SerializeField]
-    private Vector3 _movementNormalVector = Vector3.forward;
     private float _movementSpeed = 0.0f;
 
     public bool CanMove = false;
@@ -31,7 +30,7 @@ public class UnitMovementLogic : MonoBehaviour
             return;
         }
 
-        transform.position += _movementNormalVector * _movementSpeed * Time.deltaTime;
+        transform.position += transform.forward * _movementSpeed * Time.deltaTime;
     }
 
 }
