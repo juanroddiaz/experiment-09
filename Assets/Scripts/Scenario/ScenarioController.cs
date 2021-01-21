@@ -32,7 +32,9 @@ public class ScenarioController : MonoBehaviour
         if (_isUnitTestScene)
         {
             _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1, OnUnitDeath));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(5), UnitTeam.Team1, OnUnitDeath));
             _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2, OnUnitDeath));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(14), UnitTeam.Team2, OnUnitDeath));
             return;
         }
 
@@ -51,11 +53,24 @@ public class ScenarioController : MonoBehaviour
                 {
                     unit.OnTargetKilled(logic);
                 }
+                
+                _team1Units.Remove(logic);
+                if (_team1Units.Count == 0)
+                {
+                    Debug.Log("Team 2 won!");
+                    return;
+                }
                 break;
             case UnitTeam.Team2:
                 foreach (var unit in _team1Units)
                 {
                     unit.OnTargetKilled(logic);
+                }
+                _team2Units.Remove(logic);
+                if (_team2Units.Count == 0)
+                {
+                    Debug.Log("Team 1 won!");
+                    return;
                 }
                 break;
         }

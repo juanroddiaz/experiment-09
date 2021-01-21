@@ -25,6 +25,8 @@ public class UnitLogic : MonoBehaviour
     private float _smallSizeScale = 0.8f;
     [SerializeField]
     private float _bigSizeScale = 1.2f;
+    [SerializeField]
+    private Animator _animator;
 
     private UnitConfig _config;
     private Material _shapeMaterial;
@@ -169,6 +171,11 @@ public class UnitLogic : MonoBehaviour
         OnAttackExit(logic);
     }
 
+    public void OnAttackFeedback()
+    {
+        _animator.SetTrigger("Attack");
+    }
+
     public void ReceiveAttack(int atkPoints)
     {
         if (_currentHp <= 0)
@@ -178,7 +185,7 @@ public class UnitLogic : MonoBehaviour
         }
         
         _currentHp -= atkPoints;
-        Debug.Log("Damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
         if (_currentHp <= 0)
         {
             // DED

@@ -39,7 +39,8 @@ public class UnitAttackLogic : MonoBehaviour
         {
             if (_attackCooldown <= 0.0f)
             {
-                Debug.Log("Attack! " + _targets[0].name);
+                //Debug.Log("Attack! " + _targets[0].name);
+                _unitLogic.OnAttackFeedback();
                 _attackCooldown = _atkSpeed;
                 _targets[0].ReceiveAttack(_atk);
                 return;
