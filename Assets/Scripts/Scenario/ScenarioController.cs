@@ -40,7 +40,8 @@ public class ScenarioController : MonoBehaviour
 
         for (int i = 0; i < _tilesPerSide; i++)
         {
-            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath);
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(i), UnitTeam.Team2, OnUnitDeath));
         }
     }
 

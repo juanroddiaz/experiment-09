@@ -24,7 +24,7 @@ public class TriggerEventLogic : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("On trigger enter: other " + collision.gameObject.name + ", collider: " + gameObject.name);
+        //Debug.Log("On trigger enter: other " + collision.gameObject.name + ", collider: " + gameObject.name);
         if (_initialized)
         {
             _data.TriggerEnterAction?.Invoke(collision.transform);
@@ -33,7 +33,7 @@ public class TriggerEventLogic : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        Debug.Log("On trigger exit: other " + collision.gameObject.name + ", collider: " + gameObject.name);
+        //Debug.Log("On trigger exit: other " + collision.gameObject.name + ", collider: " + gameObject.name);
         if (_initialized)
         {
             _data.TriggerExitAction?.Invoke(collision.transform);

@@ -10,13 +10,13 @@ public class UnitMovementLogic : MonoBehaviour
     private List<Transform> _targets = new List<Transform>();
 
     public bool CanMove = false;
-    private float _onPauseTimeout = 1.0f;
-    private float _onPauseTimer = 0.0f;
     private Vector3 _currentDirection = Vector3.zero;
+    private Rigidbody _rb;
 
-    public void Initialize(float speed)
+    public void Initialize(float speed, Rigidbody rigidbody)
     {
         _movementSpeed = speed;
+        _rb = rigidbody;
         CanMove = true;
         _currentDirection = transform.forward.normalized;
     }
@@ -24,6 +24,7 @@ public class UnitMovementLogic : MonoBehaviour
     public void OnTogglePauseMovement(bool toggle)
     {
         CanMove = toggle;
+        _rb.velocity = Vector3.zero;
     }
 
     public void OnTargetDetected(Transform t)
@@ -53,20 +54,10 @@ public class UnitMovementLogic : MonoBehaviour
         return 0;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.rotation = Quaternion.RotateTowards(transform.rotation,
-        Quaternion.LookRotation(_currentDirection), 200.0f * Time.deltaTime);
-
         if (!CanMove)
         {
-            _onPauseTimer = _onPauseTimeout;
-            return;
-        }
-
-        if (_onPauseTimer < _onPauseTimeout)
-        {
-            _onPauseTimer += Time.deltaTime;
             return;
         }
 
@@ -79,6 +70,11 @@ public class UnitMovementLogic : MonoBehaviour
             _currentDirection = transform.forward;
         }
 
-        transform.position += _currentDirection * _movementSpeed * Time.deltaTime;
+        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation,
+        Quaternion.LookRotation(_currentDirection), 200.0f * Time.deltaTime));
+         Vector3 nextPosition = transform.position + _currentDirection * _movementSpeed * Time.fixedDeltaTime;
+         _rb.MovePosition(nextPosition);
+        transform.position = _rb.position;
+        transform.rotation = _rb.rotation;
     }
 }

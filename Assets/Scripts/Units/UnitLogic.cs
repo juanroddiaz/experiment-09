@@ -53,7 +53,7 @@ public class UnitLogic : MonoBehaviour
         Configure();
 
         _movementLogic = GetComponent<UnitMovementLogic>();
-        _movementLogic.Initialize(_config.MovementSpeed);
+        _movementLogic.Initialize(_config.MovementSpeed, _currentShapeObj.GetComponent<Rigidbody>());
 
         _attackLogic = GetComponent<UnitAttackLogic>();
         _attackLogic.Initialize(this);
@@ -127,12 +127,12 @@ public class UnitLogic : MonoBehaviour
     }
     private void OnBodyColliderEnter(Transform t)
     {
-        //_movementLogic.OnTogglePauseMovement(false);
+        _movementLogic.OnTogglePauseMovement(false);
     }
 
     private void OnBodyColliderExit(Transform t)
     {
-        //_movementLogic.OnTogglePauseMovement(true);
+        _movementLogic.OnTogglePauseMovement(true);
     }
 
     private void OnDetectionEnter(Transform t)
@@ -147,7 +147,7 @@ public class UnitLogic : MonoBehaviour
 
     private void OnAttackEnter(Transform t)
     {
-        _movementLogic.CanMove = false;
+        _movementLogic.OnTogglePauseMovement(false);
         _attackLogic.OnTargetInRange(t.parent.GetComponent<UnitLogic>());
     }
 
@@ -161,7 +161,7 @@ public class UnitLogic : MonoBehaviour
         bool noTargets = _attackLogic.OnTargetOutOfRange(unit);
         if (noTargets)
         {
-            _movementLogic.CanMove = true;
+            _movementLogic.OnTogglePauseMovement(true);
         }
     }
 
@@ -185,7 +185,7 @@ public class UnitLogic : MonoBehaviour
         }
         
         _currentHp -= atkPoints;
-        Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        //Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
         if (_currentHp <= 0)
         {
             // DED
