@@ -21,6 +21,8 @@ public class ScenarioController : MonoBehaviour
     private bool _isUnitTestScene = false;
 
     private UnitFactory _factory = new UnitFactory();
+    private List<UnitLogic> _team1Units = new List<UnitLogic>();
+    private List<UnitLogic> _team2Units = new List<UnitLogic>();
 
     private void Start()
     {
@@ -29,14 +31,33 @@ public class ScenarioController : MonoBehaviour
 
         if (_isUnitTestScene)
         {
-            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1);
-            _factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2);
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1, OnUnitDeath));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2, OnUnitDeath));
             return;
         }
 
         for (int i = 0; i < _tilesPerSide; i++)
         {
-            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1);
+            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath);
+        }
+    }
+
+    private void OnUnitDeath(UnitLogic logic)
+    {
+        switch (logic.Team)
+        {
+            case UnitTeam.Team1:
+                foreach (var unit in _team2Units)
+                {
+                    unit.OnTargetKilled(logic);
+                }
+                break;
+            case UnitTeam.Team2:
+                foreach (var unit in _team1Units)
+                {
+                    unit.OnTargetKilled(logic);
+                }
+                break;
         }
     }
 }

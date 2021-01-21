@@ -32,6 +32,12 @@ public class UnitMovementLogic : MonoBehaviour
         _targets.Sort(TargetSortingByDistance);
     }
 
+    public void OnTargetLost(Transform t)
+    {
+        _targets.Remove(t);
+        _targets.Sort(TargetSortingByDistance);
+    }
+
     private int TargetSortingByDistance(Transform x, Transform y)
     {
         float distanceX = Vector3.Distance(transform.position, x.position);
@@ -45,12 +51,6 @@ public class UnitMovementLogic : MonoBehaviour
             return 1;
         }
         return 0;
-    }
-
-    public void OnTargetLost(Transform t)
-    {
-        _targets.Remove(t);
-        _targets.Sort(TargetSortingByDistance);
     }
 
     private void Update()

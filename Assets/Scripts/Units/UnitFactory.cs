@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum UnitMainStats
@@ -59,7 +60,7 @@ public class UnitFactory
         _initialized = true;
     }
 
-    public GameObject CreateRandomUnit(Transform parent, UnitTeam team)
+    public UnitLogic CreateRandomUnit(Transform parent, UnitTeam team, Action<UnitLogic> onDeath)
     {
         if (!_initialized)
         {
@@ -68,11 +69,11 @@ public class UnitFactory
         }
 
         var unitConfig = GetRandomUnitConfig();       
-        var unit = Object.Instantiate(team == UnitTeam.Team1 ? _team1Unit : _team2Unit, parent);
+        var unit = UnityEngine.Object.Instantiate(team == UnitTeam.Team1 ? _team1Unit : _team2Unit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
         unit.transform.forward *= team == UnitTeam.Team1 ? 1.0f : -1.0f;
-        logic.Initialize(unitConfig, team);
-        return unit;
+        logic.Initialize(unitConfig, team, onDeath);
+        return logic;
     }
 
     private UnitConfig GetRandomUnitConfig()
@@ -82,8 +83,8 @@ public class UnitFactory
             Id = "RandomUnit_" + _unitIndex,
             Hp = _config.BaseHp,
             Atk = _config.BaseAtk,
-            Shape = Random.Range(0.0f, 1.0f) < 0.5f ? UnitShape.Cube : UnitShape.Sphere,
-            Size = Random.Range(0.0f, 1.0f) < 0.5f ? UnitSize.Big : UnitSize.Small,
+            Shape = UnityEngine.Random.Range(0.0f, 1.0f) < 0.5f ? UnitShape.Cube : UnitShape.Sphere,
+            Size = UnityEngine.Random.Range(0.0f, 1.0f) < 0.5f ? UnitSize.Big : UnitSize.Small,
             Colour = GetRandomUnitColour(),
         };
 
@@ -114,7 +115,7 @@ public class UnitFactory
 
     private UnitColour GetRandomUnitColour()
     {
-        float random = Random.Range(0.0f, 1.0f);
+        float random = UnityEngine.Random.Range(0.0f, 1.0f);
         if (random < 0.25f)
         {
             return UnitColour.Blue;

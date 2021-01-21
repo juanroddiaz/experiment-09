@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum UnitTeam
 { 
@@ -32,12 +33,19 @@ public class UnitLogic : MonoBehaviour
 
     private UnitMovementLogic _movementLogic;
     private UnitAttackLogic _attackLogic;
+    private int _currentHp = 0;
 
-    public void Initialize(UnitConfig config, UnitTeam team)
+    public UnitConfig Config => _config;
+    private Action<UnitLogic> _onDeath = null;
+    public UnitTeam Team;
+
+    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath)
     {
         _config = config;
+        Team = team;
         _cubeShape.SetActive(false);
         _sphereShape.SetActive(false);
+        _currentHp = _config.Hp;
 
         Debug.Log(config.ToString());
         Configure();
@@ -46,7 +54,7 @@ public class UnitLogic : MonoBehaviour
         _movementLogic.Initialize(_config.MovementSpeed);
 
         _attackLogic = GetComponent<UnitAttackLogic>();
-        _attackLogic.Initialize(_config.Atk, _config.AttackSpeed);
+        _attackLogic.Initialize(this);
 
         _detectionTriggerLogic.gameObject.tag = team.ToString();
         _detectionTriggerLogic.Initialize(new TriggerEventData
@@ -61,6 +69,8 @@ public class UnitLogic : MonoBehaviour
             TriggerEnterAction = OnAttackEnter,
             TriggerExitAction = OnAttackExit,
         });
+
+        _onDeath = onDeath;
     }
 
     private void Configure()
@@ -125,7 +135,7 @@ public class UnitLogic : MonoBehaviour
 
     private void OnDetectionEnter(Transform t)
     {
-        _movementLogic.OnTargetDetected(t);
+        _movementLogic.OnTargetDetected(t.parent);
     }
 
     private void OnDetectionExit(Transform t)
@@ -136,11 +146,44 @@ public class UnitLogic : MonoBehaviour
     private void OnAttackEnter(Transform t)
     {
         _movementLogic.CanMove = false;
-        _attackLogic.OnTargetInRange(t);
+        _attackLogic.OnTargetInRange(t.parent.GetComponent<UnitLogic>());
     }
 
     private void OnAttackExit(Transform t)
     {
-        _attackLogic.OnTargetOutOfRange(t);
+        OnAttackExit(t.parent.GetComponent<UnitLogic>());
+    }
+
+    private void OnAttackExit(UnitLogic unit)
+    {
+        bool noTargets = _attackLogic.OnTargetOutOfRange(unit);
+        if (noTargets)
+        {
+            _movementLogic.CanMove = true;
+        }
+    }
+
+    public void OnTargetKilled(UnitLogic logic)
+    {
+        OnDetectionExit(logic.transform);
+        OnAttackExit(logic);
+    }
+
+    public void ReceiveAttack(int atkPoints)
+    {
+        if (_currentHp <= 0)
+        { 
+            Debug.LogError("Already dead!");
+            return;
+        }
+        
+        _currentHp -= atkPoints;
+        Debug.Log("Damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        if (_currentHp <= 0)
+        {
+            // DED
+            gameObject.SetActive(false);
+            _onDeath?.Invoke(this);
+        }
     }
 }
