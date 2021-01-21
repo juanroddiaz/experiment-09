@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team2_BaseUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 7537383154826953433, guid: 46bb0d7f29a394d479e11dc125c22e95,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7537383154826953446, guid: 46bb0d7f29a394d479e11dc125c22e95,
         type: 3}
       propertyPath: m_RootOrder
@@ -45,12 +50,12 @@ PrefabInstance:
     - target: {fileID: 7537383154966291780, guid: 46bb0d7f29a394d479e11dc125c22e95,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7537383154983370830, guid: 46bb0d7f29a394d479e11dc125c22e95,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46bb0d7f29a394d479e11dc125c22e95, type: 3}

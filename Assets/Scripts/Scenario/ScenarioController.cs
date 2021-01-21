@@ -14,6 +14,8 @@ public class ScenarioController : MonoBehaviour
     private GameObject _team2UnitObject = null;
     [SerializeField]
     private int _tilesPerSide = 20;
+    [SerializeField]
+    private Transform _centerObject;
     [Header("Config")]
     [SerializeField]
     private UnitsCharacteristicConfig _unitsCharacteristicConfig = null;
@@ -31,17 +33,17 @@ public class ScenarioController : MonoBehaviour
 
         if (_isUnitTestScene)
         {
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1, OnUnitDeath));
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(5), UnitTeam.Team1, OnUnitDeath));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2, OnUnitDeath));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(14), UnitTeam.Team2, OnUnitDeath));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1, OnUnitDeath, _centerObject));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(5), UnitTeam.Team1, OnUnitDeath, _centerObject));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2, OnUnitDeath, _centerObject));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(14), UnitTeam.Team2, OnUnitDeath, _centerObject));
             return;
         }
 
         for (int i = 0; i < _tilesPerSide; i++)
         {
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(i), UnitTeam.Team2, OnUnitDeath));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath, _centerObject));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(i), UnitTeam.Team2, OnUnitDeath, _centerObject));
         }
     }
 

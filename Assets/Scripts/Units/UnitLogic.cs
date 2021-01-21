@@ -27,6 +27,8 @@ public class UnitLogic : MonoBehaviour
     private float _bigSizeScale = 1.2f;
     [SerializeField]
     private Animator _animator;
+    [SerializeField]
+    private TMPro.TextMeshPro _teamText;
 
     private UnitConfig _config;
     private Material _shapeMaterial;
@@ -41,7 +43,7 @@ public class UnitLogic : MonoBehaviour
     private Action<UnitLogic> _onDeath = null;
     public UnitTeam Team;
 
-    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath)
+    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath, Transform center)
     {
         _config = config;
         Team = team;
@@ -51,27 +53,7 @@ public class UnitLogic : MonoBehaviour
 
         Debug.Log(config.ToString());
         Configure();
-
-        _movementLogic = GetComponent<UnitMovementLogic>();
-        _movementLogic.Initialize(_config.MovementSpeed, _currentShapeObj.GetComponent<Rigidbody>());
-
-        _attackLogic = GetComponent<UnitAttackLogic>();
-        _attackLogic.Initialize(this);
-
-        _detectionTriggerLogic.gameObject.tag = team.ToString();
-        _detectionTriggerLogic.Initialize(new TriggerEventData
-        {
-            TriggerEnterAction = OnDetectionEnter,
-            TriggerExitAction = OnDetectionExit,
-        });
-
-        _attackTriggerLogic.gameObject.tag = team.ToString();
-        _attackTriggerLogic.Initialize(new TriggerEventData
-        {
-            TriggerEnterAction = OnAttackEnter,
-            TriggerExitAction = OnAttackExit,
-        });
-
+        InitializeComponents(center);
         _onDeath = onDeath;
     }
 
@@ -86,16 +68,6 @@ public class UnitLogic : MonoBehaviour
                 _currentShapeObj = _sphereShape;
                 break;
         }
-
-        _currentShapeObj.SetActive(true);
-        _shapeMaterial = _currentShapeObj.GetComponent<MeshRenderer>().material;
-        _bodyColliderLogic = _currentShapeObj.GetComponent<CollisionTriggerLogic>();
-        _bodyColliderLogic.Initialize(new CollisionTriggerData
-        {
-            ColliderEnterAction = OnBodyColliderEnter,
-            ColliderExitAction = OnBodyColliderExit,
-        });
-        _areas.SetParent(_currentShapeObj.transform);
 
         switch (_config.Size)
         {
@@ -123,21 +95,55 @@ public class UnitLogic : MonoBehaviour
                 targetColor = Color.red;
                 break;
         }
+
+        _shapeMaterial = _currentShapeObj.GetComponent<MeshRenderer>().material;
         _shapeMaterial.color = targetColor;
+        _teamText.text = Team == UnitTeam.Team1 ? "1" : "2";
     }
+
+    private void InitializeComponents(Transform center)
+    {
+        _currentShapeObj.SetActive(true);
+        _bodyColliderLogic = GetComponent<CollisionTriggerLogic>();
+        _bodyColliderLogic.Initialize(new CollisionTriggerData
+        {
+            ColliderEnterAction = OnBodyColliderEnter,
+            ColliderExitAction = OnBodyColliderExit,
+        });
+        _areas.SetParent(_currentShapeObj.transform);
+
+        _movementLogic = GetComponent<UnitMovementLogic>();
+        _movementLogic.Initialize(_config.MovementSpeed, GetComponent<Rigidbody>(), center);
+
+        _attackLogic = GetComponent<UnitAttackLogic>();
+        _attackLogic.Initialize(this);
+
+        _detectionTriggerLogic.Initialize(new TriggerEventData
+        {
+            TriggerEnterAction = OnDetectionEnter,
+            TriggerExitAction = OnDetectionExit,
+        });
+
+        _attackTriggerLogic.Initialize(new TriggerEventData
+        {
+            TriggerEnterAction = OnAttackEnter,
+            TriggerExitAction = OnAttackExit,
+        });
+    }
+
     private void OnBodyColliderEnter(Transform t)
     {
-        _movementLogic.OnTogglePauseMovement(false);
+        //_movementLogic.OnTogglePauseMovement(false);
     }
 
     private void OnBodyColliderExit(Transform t)
     {
-        _movementLogic.OnTogglePauseMovement(true);
+        //_movementLogic.OnTogglePauseMovement(true);
     }
 
     private void OnDetectionEnter(Transform t)
     {
-        _movementLogic.OnTargetDetected(t.parent);
+        _movementLogic.OnTargetDetected(t);
     }
 
     private void OnDetectionExit(Transform t)
@@ -145,15 +151,20 @@ public class UnitLogic : MonoBehaviour
         _movementLogic.OnTargetLost(t);
     }
 
+    private void OnDetectionExit(UnitLogic unit)
+    {
+        _movementLogic.OnTargetLost(unit.transform);
+    }
+
     private void OnAttackEnter(Transform t)
     {
         _movementLogic.OnTogglePauseMovement(false);
-        _attackLogic.OnTargetInRange(t.parent.GetComponent<UnitLogic>());
+        _attackLogic.OnTargetInRange(t.GetComponent<UnitLogic>());
     }
 
     private void OnAttackExit(Transform t)
     {
-        OnAttackExit(t.parent.GetComponent<UnitLogic>());
+        OnAttackExit(t.GetComponent<UnitLogic>());
     }
 
     private void OnAttackExit(UnitLogic unit)
@@ -167,7 +178,7 @@ public class UnitLogic : MonoBehaviour
 
     public void OnTargetKilled(UnitLogic logic)
     {
-        OnDetectionExit(logic.transform);
+        OnDetectionExit(logic);
         OnAttackExit(logic);
     }
 
