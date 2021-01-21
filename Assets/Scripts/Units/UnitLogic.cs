@@ -131,6 +131,11 @@ public class UnitLogic : MonoBehaviour
         });
     }
 
+    public void StartGameplay()
+    {
+        _movementLogic.GameStarted();
+    }
+
     private void OnBodyColliderEnter(Transform t)
     {
         //_movementLogic.OnTogglePauseMovement(false);

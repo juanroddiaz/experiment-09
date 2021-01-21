@@ -13,14 +13,21 @@ public class UnitMovementLogic : MonoBehaviour
     private Vector3 _currentDirection = Vector3.zero;
     private Rigidbody _rb;
     private Transform _defaultCenterTarget;
+    private bool _gameStarted = false;
 
     public void Initialize(float speed, Rigidbody rigidbody, Transform center)
     {
         _movementSpeed = speed;
         _rb = rigidbody;
         CanMove = true;
+        _gameStarted = false;
         _currentDirection = transform.forward.normalized;
         _defaultCenterTarget = center;
+    }
+
+    public void GameStarted()
+    {
+        _gameStarted = true;
     }
 
     public void OnTogglePauseMovement(bool toggle)
@@ -58,10 +65,7 @@ public class UnitMovementLogic : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation,
-        Quaternion.LookRotation(_currentDirection), 200.0f * Time.deltaTime));
-
-        if (!CanMove)
+        if (!_gameStarted)
         {
             return;
         }
@@ -74,8 +78,16 @@ public class UnitMovementLogic : MonoBehaviour
         {
             _currentDirection = Vector3.Normalize(_defaultCenterTarget.position - transform.position);
         }
-
         _currentDirection.y = 0.0f;
+
+        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation,
+        Quaternion.LookRotation(_currentDirection), 200.0f * Time.deltaTime));
+
+        if (!CanMove)
+        {
+            return;
+        }
+
         Vector3 nextPosition = transform.position + _currentDirection * _movementSpeed * Time.fixedDeltaTime;
         _rb.MovePosition(nextPosition);
         transform.position = _rb.position;
