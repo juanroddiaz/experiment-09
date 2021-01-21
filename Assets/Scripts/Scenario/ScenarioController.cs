@@ -25,15 +25,18 @@ public class ScenarioController : MonoBehaviour
     private void Start()
     {
         _team1GridLogic.Initialize(this);
-        _factory.Initialize(_unitsCharacteristicConfig, _team1UnitObject);
-        for (int i = 0; i < _tilesPerSide; i++)
-        {
-            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1);
-        }
+        _factory.Initialize(_unitsCharacteristicConfig, _team1UnitObject, _team2UnitObject);
 
         if (_isUnitTestScene)
         {
+            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1);
             _factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2);
+            return;
+        }
+
+        for (int i = 0; i < _tilesPerSide; i++)
+        {
+            _factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1);
         }
     }
 }

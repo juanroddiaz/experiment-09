@@ -46,14 +46,16 @@ public class UnitConfig
 public class UnitFactory
 {
     private UnitsCharacteristicConfig _config;
-    private GameObject _baseUnit = null;
+    private GameObject _team1Unit = null;
+    private GameObject _team2Unit = null;
     private bool _initialized = false;
     private int _unitIndex = 0;
 
-    public void Initialize(UnitsCharacteristicConfig config, GameObject baseUnit)
+    public void Initialize(UnitsCharacteristicConfig config, GameObject team1Unit, GameObject team2Unit)
     {
         _config = config;
-        _baseUnit = baseUnit;
+        _team1Unit = team1Unit;
+        _team2Unit = team2Unit;
         _initialized = true;
     }
 
@@ -66,10 +68,10 @@ public class UnitFactory
         }
 
         var unitConfig = GetRandomUnitConfig();       
-        var unit = Object.Instantiate(_baseUnit, parent);
+        var unit = Object.Instantiate(team == UnitTeam.Team1 ? _team1Unit : _team2Unit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
-        logic.Initialize(unitConfig, team);
         unit.transform.forward *= team == UnitTeam.Team1 ? 1.0f : -1.0f;
+        logic.Initialize(unitConfig, team);
         return unit;
     }
 

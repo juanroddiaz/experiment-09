@@ -2075,7 +2075,7 @@ MonoBehaviour:
   _team2GridLogic: {fileID: 234836351}
   _team1UnitObject: {fileID: 7537383154826953433, guid: 46bb0d7f29a394d479e11dc125c22e95,
     type: 3}
-  _team2UnitObject: {fileID: 7537383154826953433, guid: 7a932e49afde6b74bb5cd4ceea1c15c1,
+  _team2UnitObject: {fileID: 8289333062149267628, guid: 7a932e49afde6b74bb5cd4ceea1c15c1,
     type: 3}
   _tilesPerSide: 20
   _unitsCharacteristicConfig: {fileID: 11400000, guid: 8a0a3b2cd04e89e4d8c8a851664761ac,
@@ -4411,7 +4411,7 @@ MeshCollider:
   m_GameObject: {fileID: 1967486259}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

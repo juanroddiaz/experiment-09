@@ -22,7 +22,7 @@ public class CollisionTriggerLogic : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("On trigger enter: other " + other.gameObject.name + ", collider: " + gameObject.name);
+        Debug.Log("On collision enter: other " + other.gameObject.name + ", collider: " + gameObject.name);
         if (_initialized)
         {
             _data.ColliderEnterAction?.Invoke(other.transform);
@@ -31,7 +31,7 @@ public class CollisionTriggerLogic : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        Debug.Log("On trigger exit: other " + other.gameObject.name + ", collider: " + gameObject.name);
+        Debug.Log("On collision exit: other " + other.gameObject.name + ", collider: " + gameObject.name);
         if (_initialized)
         {
             _data.ColliderExitAction?.Invoke(other.transform);
