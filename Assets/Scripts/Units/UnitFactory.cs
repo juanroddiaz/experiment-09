@@ -60,7 +60,7 @@ public class UnitFactory
         _initialized = true;
     }
 
-    public UnitLogic CreateRandomUnit(Transform parent, UnitTeam team, Action<UnitLogic> onDeath, Transform center)
+    public UnitLogic CreateRandomUnit(Transform parent, UnitTeam team, Action<UnitLogic> onDeath, Transform center, HudGameplayController hud)
     {
         if (!_initialized)
         {
@@ -72,7 +72,7 @@ public class UnitFactory
         var unit = UnityEngine.Object.Instantiate(team == UnitTeam.Team1 ? _team1Unit : _team2Unit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
         unit.transform.forward *= team == UnitTeam.Team1 ? 1.0f : -1.0f;
-        logic.Initialize(unitConfig, team, onDeath, center);
+        logic.Initialize(unitConfig, team, onDeath, center, hud);
         return logic;
     }
 

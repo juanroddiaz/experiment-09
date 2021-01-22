@@ -29,6 +29,8 @@ public class UnitLogic : MonoBehaviour
     private Animator _animator = null;
     [SerializeField]
     private TMPro.TextMeshPro _teamText = null;
+    [SerializeField]
+    private CombatFloatingNumberLogic _combatNumber = null;
 
     private UnitConfig _config;
     private Material _shapeMaterial;
@@ -43,13 +45,14 @@ public class UnitLogic : MonoBehaviour
     private Action<UnitLogic> _onDeath = null;
     public UnitTeam Team;
 
-    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath, Transform center)
+    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath, Transform center, HudGameplayController hud)
     {
         _config = config;
         Team = team;
         _cubeShape.SetActive(false);
         _sphereShape.SetActive(false);
         _currentHp = _config.Hp;
+        _combatNumber.Initialize(hud, transform, _config.Hp);
 
         Debug.Log(config.ToString());
         Configure();
@@ -201,12 +204,21 @@ public class UnitLogic : MonoBehaviour
         }
         
         _currentHp -= atkPoints;
-        //Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        CombatMessageType combatMessage = CombatMessageType.Normal;
         if (_currentHp <= 0)
         {
             // DED
             gameObject.SetActive(false);
+            combatMessage = CombatMessageType.Lethal;
             _onDeath?.Invoke(this);
         }
+        _combatNumber.Trigger(atkPoints.ToString(), combatMessage, _currentHp % 2 == 0);
+    }
+
+    public void Cleanup(bool instant = false)
+    {
+        Destroy(_combatNumber.gameObject, instant ? 0.0f : 2.0f);
+        Destroy(gameObject, instant ? 0.0f : 2.0f);
     }
 }

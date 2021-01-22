@@ -111,4 +111,9 @@ public class HudGameplayController : MonoBehaviour
         _endTitleText.text = team == UnitTeam.Team1 ? "TEAM 1 WON!" : "TEAM 2 WON!";
         OnFinishLevel();
     }
+
+    public GameObject GetGameUI()
+    {
+        return _gameplayPanel;
+    }
 }
