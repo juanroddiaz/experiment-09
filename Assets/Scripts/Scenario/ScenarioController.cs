@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioController : MonoBehaviour
@@ -82,19 +81,37 @@ public class ScenarioController : MonoBehaviour
         _team1Units.Clear();
         _team2Units.Clear();
 
+        var team1Model = new UnitLogicModel
+        {
+            Config = null,
+            Team = UnitTeam.Team1,
+            OnDeathAction = OnUnitDeath,
+            AttackCenter = _centerObject,
+            Hud = _hudGameplay,
+        };
+
+        var team2Model = new UnitLogicModel
+        {
+            Config = null,
+            Team = UnitTeam.Team2,
+            OnDeathAction = OnUnitDeath,
+            AttackCenter = _centerObject,
+            Hud = _hudGameplay,
+        };
+
         if (_isUnitTestScene)
         {
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), UnitTeam.Team1, OnUnitDeath, _centerObject, _hudGameplay));
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(5), UnitTeam.Team1, OnUnitDeath, _centerObject, _hudGameplay));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), UnitTeam.Team2, OnUnitDeath, _centerObject, _hudGameplay));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(14), UnitTeam.Team2, OnUnitDeath, _centerObject, _hudGameplay));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(6), team1Model));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(5), team1Model));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(7), team2Model));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(14), team2Model));
             return;
         }
 
         for (int i = 0; i < _tilesPerSide; i++)
         {
-            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), UnitTeam.Team1, OnUnitDeath, _centerObject, _hudGameplay));
-            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(i), UnitTeam.Team2, OnUnitDeath, _centerObject, _hudGameplay));
+            _team1Units.Add(_factory.CreateRandomUnit(_team1GridLogic.GetTileTransform(i), team1Model));
+            _team2Units.Add(_factory.CreateRandomUnit(_team2GridLogic.GetTileTransform(i), team2Model));
         }
 
         _hudGameplay.Initialize(this);
@@ -102,7 +119,7 @@ public class ScenarioController : MonoBehaviour
 
     private void OnUnitDeath(UnitLogic logic)
     {
-        switch (logic.Team)
+        switch (logic._team)
         {
             case UnitTeam.Team1:
                 foreach (var unit in _team2Units)

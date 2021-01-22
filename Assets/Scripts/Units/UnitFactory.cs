@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum UnitMainStats
@@ -25,6 +24,12 @@ public enum UnitColour
     Yellow,
     Green,
     Red,
+}
+
+public enum UnitTeam
+{
+    Team1 = 0,
+    Team2,
 }
 
 public class UnitConfig
@@ -60,7 +65,7 @@ public class UnitFactory
         _initialized = true;
     }
 
-    public UnitLogic CreateRandomUnit(Transform parent, UnitTeam team, Action<UnitLogic> onDeath, Transform center, HudGameplayController hud)
+    public UnitLogic CreateRandomUnit(Transform parent, UnitLogicModel unitModel)
     {
         if (!_initialized)
         {
@@ -68,11 +73,12 @@ public class UnitFactory
             return null;
         }
 
-        var unitConfig = GetRandomUnitConfig();       
-        var unit = UnityEngine.Object.Instantiate(team == UnitTeam.Team1 ? _team1Unit : _team2Unit, parent);
+        unitModel.Config = GetRandomUnitConfig();
+        bool isTeam1 = unitModel.Team == UnitTeam.Team1;
+        var unit = UnityEngine.Object.Instantiate(isTeam1 ? _team1Unit : _team2Unit, parent);
         UnitLogic logic = unit.GetComponent<UnitLogic>();
-        unit.transform.forward *= team == UnitTeam.Team1 ? 1.0f : -1.0f;
-        logic.Initialize(unitConfig, team, onDeath, center, hud);
+        unit.transform.forward *= isTeam1 ? 1.0f : -1.0f;
+        logic.Initialize(unitModel);
         return logic;
     }
 

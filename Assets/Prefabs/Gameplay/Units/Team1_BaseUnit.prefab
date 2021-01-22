@@ -385,7 +385,6 @@ GameObject:
   - component: {fileID: 6523170196925604302}
   - component: {fileID: 8254577550836904041}
   - component: {fileID: 4210336202806392177}
-  - component: {fileID: 6783015003053674310}
   m_Layer: 8
   m_Name: Team1_BaseUnit
   m_TagString: Untagged
@@ -433,7 +432,7 @@ MonoBehaviour:
   _animator: {fileID: 6523170196925604302}
   _teamText: {fileID: 1336015029327649827}
   _combatNumber: {fileID: 2935108694770946423}
-  Team: 0
+  _team: 0
 --- !u!114 &8603369617738417810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,18 +509,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &6783015003053674310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537383154826953433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 882e4674915e027448ba7c15b038f712, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7537383154966291780
 GameObject:
   m_ObjectHideFlags: 0

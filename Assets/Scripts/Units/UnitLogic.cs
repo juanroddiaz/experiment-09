@@ -1,10 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public enum UnitTeam
-{ 
-    Team1 = 0,
-    Team2,
+public class UnitLogicModel
+{
+    public UnitConfig Config;
+    public UnitTeam Team;
+    public Action<UnitLogic> OnDeathAction;
+    public Transform AttackCenter;
+    public HudGameplayController Hud;
 }
 
 public class UnitLogic : MonoBehaviour
@@ -32,32 +35,31 @@ public class UnitLogic : MonoBehaviour
     [SerializeField]
     private CombatFloatingNumberLogic _combatNumber = null;
 
-    private UnitConfig _config;
     private Material _shapeMaterial;
     private GameObject _currentShapeObj;
-    private CollisionTriggerLogic _bodyColliderLogic;
 
     private UnitMovementLogic _movementLogic;
     private UnitAttackLogic _attackLogic;
     private int _currentHp = 0;
-
-    public UnitConfig Config => _config;
     private Action<UnitLogic> _onDeath = null;
-    public UnitTeam Team;
+    private UnitTeam _team;
 
-    public void Initialize(UnitConfig config, UnitTeam team, Action<UnitLogic> onDeath, Transform center, HudGameplayController hud)
+    private UnitConfig _config;
+    public UnitConfig Config => _config;
+
+    public void Initialize(UnitLogicModel unitModel)
     {
-        _config = config;
-        Team = team;
+        _config = unitModel.Config;
+        _team = unitModel.Team;
         _cubeShape.SetActive(false);
         _sphereShape.SetActive(false);
         _currentHp = _config.Hp;
-        _combatNumber.Initialize(hud, transform, _config.Hp);
+        _combatNumber.Initialize(unitModel.Hud, transform, _config.Hp);
 
-        Debug.Log(config.ToString());
+        Debug.Log(unitModel.Config.ToString());
         Configure();
-        InitializeComponents(center);
-        _onDeath = onDeath;
+        InitializeComponents(unitModel.AttackCenter);
+        _onDeath = unitModel.OnDeathAction;
     }
 
     private void Configure()
@@ -101,18 +103,12 @@ public class UnitLogic : MonoBehaviour
 
         _shapeMaterial = _currentShapeObj.GetComponent<MeshRenderer>().material;
         _shapeMaterial.color = targetColor;
-        _teamText.text = Team == UnitTeam.Team1 ? "1" : "2";
+        _teamText.text = _team == UnitTeam.Team1 ? "1" : "2";
     }
 
     private void InitializeComponents(Transform center)
     {
         _currentShapeObj.SetActive(true);
-        _bodyColliderLogic = GetComponent<CollisionTriggerLogic>();
-        _bodyColliderLogic.Initialize(new CollisionTriggerData
-        {
-            ColliderEnterAction = OnBodyColliderEnter,
-            ColliderExitAction = OnBodyColliderExit,
-        });
         _areas.SetParent(_currentShapeObj.transform);
 
         _movementLogic = GetComponent<UnitMovementLogic>();
@@ -137,16 +133,6 @@ public class UnitLogic : MonoBehaviour
     public void StartGameplay()
     {
         _movementLogic.GameStarted();
-    }
-
-    private void OnBodyColliderEnter(Transform t)
-    {
-        //_movementLogic.OnTogglePauseMovement(false);
-    }
-
-    private void OnBodyColliderExit(Transform t)
-    {
-        //_movementLogic.OnTogglePauseMovement(true);
     }
 
     private void OnDetectionEnter(Transform t)
@@ -204,7 +190,7 @@ public class UnitLogic : MonoBehaviour
         }
         
         _currentHp -= atkPoints;
-        Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
+        //Debug.Log(name + " suffered damage! Remaining HP: " + _currentHp + ", atk received: " + atkPoints);
         CombatMessageType combatMessage = CombatMessageType.Normal;
         if (_currentHp <= 0)
         {
