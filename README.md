@@ -2,7 +2,7 @@
 Casual Game Developer Technical Test
 
 Unit Configuration:
-![Config](/Images/config.png)
+![config](/Images/config.PNG)
 
 Start Scene:
 ![Start](/Images/start_game.gif)
@@ -11,7 +11,7 @@ End Menu:
 ![End](/Images/end_game.gif)
 
 Timeline:
-![Timeline](/Images/timeline.png)
+![timeline](/Images/timeline.PNG)
 
 External Packages (unused assets were deleted):
 * Kenney's free resources: https://www.kenney.nl/. Some assets I got them from the itchio's Bundle for Racial Justice and Equality.
