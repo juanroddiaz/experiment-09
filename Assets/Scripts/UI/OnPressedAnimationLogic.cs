@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class OnPressedAnimationLogic : MonoBehaviour
 {
     [SerializeField]
-    private Image _buttonImage;
+    private Image _buttonImage = null;
 
     private Vector3 _originalScale = Vector3.one;
     private Color _originalColor = Color.white;

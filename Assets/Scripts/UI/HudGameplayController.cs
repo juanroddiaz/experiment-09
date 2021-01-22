@@ -8,28 +8,28 @@ public class HudGameplayController : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField]
-    private GameObject _pausePanel;
+    private GameObject _pausePanel = null;
     [SerializeField]
-    private GameObject _topPanel;
+    private GameObject _topPanel = null;
     [SerializeField]
-    private GameObject _startLevelPanel;
+    private GameObject _startLevelPanel = null;
     [SerializeField]
-    private GameObject _endLevelPanel;
+    private GameObject _endLevelPanel = null;
     [SerializeField]
-    private GameObject _gameplayPanel;
+    private GameObject _gameplayPanel = null;
     [Header("Counters")]
     [SerializeField]
-    private TextMeshProUGUI _startLevelCountdown;
+    private TextMeshProUGUI _startLevelCountdown = null;
     [Header("EndGame Info")]
     [SerializeField]
-    private Animator _endLevelAnimator;
+    private Animator _endLevelAnimator = null;
     [SerializeField]
-    private CanvasGroup _endLevelGroup;
+    private CanvasGroup _endLevelGroup = null;
     [SerializeField]
-    private Animator _startLevelAnimator;
+    private Animator _startLevelAnimator = null;
     [Header("Feedback")]
     [SerializeField]
-    private TextMeshProUGUI _endTitleText;
+    private TextMeshProUGUI _endTitleText = null;
 
     private ScenarioController _sceneController;
 

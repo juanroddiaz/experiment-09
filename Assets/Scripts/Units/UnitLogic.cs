@@ -10,25 +10,25 @@ public enum UnitTeam
 public class UnitLogic : MonoBehaviour
 {
     [SerializeField]
-    private Transform _areas;
+    private Transform _areas = null;
     [SerializeField]
-    private TriggerEventLogic _detectionTriggerLogic;
+    private TriggerEventLogic _detectionTriggerLogic = null;
     [SerializeField]
-    private TriggerEventLogic _attackTriggerLogic;
+    private TriggerEventLogic _attackTriggerLogic = null;
 
     [Header("Visual Feedback")]
     [SerializeField]
-    private GameObject _cubeShape;
+    private GameObject _cubeShape = null;
     [SerializeField]
-    private GameObject _sphereShape;
+    private GameObject _sphereShape = null;
     [SerializeField]
     private float _smallSizeScale = 0.8f;
     [SerializeField]
     private float _bigSizeScale = 1.2f;
     [SerializeField]
-    private Animator _animator;
+    private Animator _animator = null;
     [SerializeField]
-    private TMPro.TextMeshPro _teamText;
+    private TMPro.TextMeshPro _teamText = null;
 
     private UnitConfig _config;
     private Material _shapeMaterial;

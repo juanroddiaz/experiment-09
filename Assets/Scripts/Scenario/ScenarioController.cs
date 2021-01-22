@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScenarioController : MonoBehaviour
 {
     [SerializeField]
-    private HudGameplayController _hudGameplay;
+    private HudGameplayController _hudGameplay = null;
     [SerializeField]
     private UnitsGridLogic _team1GridLogic = null;
     [SerializeField]
@@ -17,11 +17,9 @@ public class ScenarioController : MonoBehaviour
     [SerializeField]
     private int _tilesPerSide = 20;
     [SerializeField]
-    private Transform _centerObject;
+    private Transform _centerObject = null;
     [SerializeField]
-    private Transform _cameraTransform;
-    [SerializeField]
-    private Camera _camera;
+    private Camera _camera = null;
     [SerializeField]
     private Vector2 _targetScreenSize = new Vector2(1920.0f, 1080.0f);
     [Header("Config")]

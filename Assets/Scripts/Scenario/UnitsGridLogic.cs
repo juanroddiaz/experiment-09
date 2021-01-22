@@ -7,7 +7,7 @@ public class UnitsGridLogic : MonoBehaviour
     [SerializeField]
     private ScenarioController _controller;
     [SerializeField]
-    private List<Transform> _tiles;
+    private List<Transform> _tiles = null;
     
     public void Initialize(ScenarioController controller)
     {
