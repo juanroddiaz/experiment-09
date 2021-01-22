@@ -5,7 +5,7 @@ public class UnitLogicModel
 {
     public UnitConfig Config;
     public UnitTeam Team;
-    public Action<UnitLogic> OnDeathAction;
+    public Action<UnitLogic, UnitTeam> OnDeathAction;
     public Transform AttackCenter;
     public HudGameplayController Hud;
 }
@@ -41,7 +41,7 @@ public class UnitLogic : MonoBehaviour
     private UnitMovementLogic _movementLogic;
     private UnitAttackLogic _attackLogic;
     private int _currentHp = 0;
-    private Action<UnitLogic> _onDeath = null;
+    private Action<UnitLogic, UnitTeam> _onDeath = null;
     private UnitTeam _team;
 
     private UnitConfig _config;
@@ -197,7 +197,7 @@ public class UnitLogic : MonoBehaviour
             // DED
             gameObject.SetActive(false);
             combatMessage = CombatMessageType.Lethal;
-            _onDeath?.Invoke(this);
+            _onDeath?.Invoke(this, _team);
         }
         _combatNumber.Trigger(atkPoints.ToString(), combatMessage, _currentHp % 2 == 0);
     }

@@ -117,9 +117,9 @@ public class ScenarioController : MonoBehaviour
         _hudGameplay.Initialize(this);
     }
 
-    private void OnUnitDeath(UnitLogic logic)
+    private void OnUnitDeath(UnitLogic logic, UnitTeam team)
     {
-        switch (logic._team)
+        switch (team)
         {
             case UnitTeam.Team1:
                 foreach (var unit in _team2Units)
