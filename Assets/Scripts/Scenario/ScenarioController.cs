@@ -21,7 +21,9 @@ public class ScenarioController : MonoBehaviour
     [SerializeField]
     private Transform _cameraTransform;
     [SerializeField]
-    private Vector2Int _targetScreenSize = new Vector2Int(1920, 1080);
+    private Camera _camera;
+    [SerializeField]
+    private Vector2 _targetScreenSize = new Vector2(1920.0f, 1080.0f);
     [Header("Config")]
     [SerializeField]
     private UnitsCharacteristicConfig _unitsCharacteristicConfig = null;
@@ -31,13 +33,11 @@ public class ScenarioController : MonoBehaviour
     private UnitFactory _factory = new UnitFactory();
     private List<UnitLogic> _team1Units = new List<UnitLogic>();
     private List<UnitLogic> _team2Units = new List<UnitLogic>();
-    private float _cameraHeight = 0.0f;
 
     private void Awake()
     {
         _team1GridLogic.Initialize(this);
         _factory.Initialize(_unitsCharacteristicConfig, _team1UnitObject, _team2UnitObject);
-        _cameraHeight = _cameraTransform.position.y;
         InitializeScene();
     }
 
@@ -67,6 +67,10 @@ public class ScenarioController : MonoBehaviour
 
     public void InitializeScene()
     {
+        float aspectRatio = Screen.width / ((float)Screen.height);
+        float percentage = 1 - (aspectRatio / (_targetScreenSize.x / _targetScreenSize.y));
+        _camera.rect = new Rect(0f, (percentage / 2), 1f, (1 - percentage));
+
         foreach (var unit in _team1Units)
         {
             Destroy(unit.gameObject);
