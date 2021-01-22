@@ -21,6 +21,7 @@ Time spent: please consider chores and personal time taken during the test perio
 * PART 2: ~ 2 days 
 
 Considerations:
+* To test: open unity project and go to Scenes/UnitsScene, open it and press play. 
 * Mostly a MVC project: I like to create models and data to populate a factory logic that will create the views/instances on gameplay, then a controller (ScenarioController) is in charge of the gameplay conditions and scene set up.
 * Camera and UI setup targeting a 1920 x 1080 screen size.
 * I created the config in a way we can modify the rules for Part 1 and not have to heavily recode the data structures.
